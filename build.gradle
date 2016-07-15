@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = '1.0'
+
+jar {
+    manifest {
+        attributes (
+            'Implementation-Title': 'password-generator',
+            'Implementation-Version': 1.0,
+            'Main-Class': 'password.generator.main.PasswordGenerator'
+        )
+    }
+    // fat-jar generation.
+    doFirst {
+        from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+}
+
+repositories {
+    mavenLocal() 
+    mavenCentral() 
+}
+
+dependencies {
+    compile 'org.fusesource.jansi:jansi:1.13'
+    compile 'org.projectlombok:lombok:1.16.8'
+    compile 'org.tinylog:tinylog:1.1'
+    compile 'org.tinylog:log4j-facade:1.1'
+    compile 'org.tinylog:slf4j-binding:1.1'
+    testCompile 'junit:junit:4.+'
+}
